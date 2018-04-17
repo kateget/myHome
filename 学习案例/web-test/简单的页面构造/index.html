@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<style>
+			body a:hover{
+				text-decoration: none;
+			}
+			.header{
+				background: rgba(215,215,215,1);
+				height: 75px;
+			}
+			.log{
+				float: left;
+				margin-left: 20px;
+				height: 75px;
+			}
+			.log img,.log span{
+				vertical-align: middle;
+			}
+			.log:after{
+				content: "";
+				display: inline-block;
+				height: 75px;
+				vertical-align: middle;
+			}
+			.manager .navbar-nav>li.dropdown{
+				height: 75px;
+			}
+			.manager .navbar-nav>li .dropdown-toggle {
+			    padding: 22px 10px;
+			    margin: 0;
+			    float: left;
+			}
+			.img-circle{
+				width: 30px;
+    			height: 30px;
+			}
+			.manager{
+				height: 75px;
+				float: right;
+				margin-right: 50px;
+			}
+			.manager .navbar-nav{
+				padding: 0;
+			    display: block;
+			    float: right;
+		        list-style-type: none;
+			}
+			.manager .dropdown-menu{
+				padding: 0;
+				text-align: center;
+				min-width: 100px;
+			    top: 60px;
+			}
+			.manager .dropdown-menu:before{
+				position: absolute;
+				content: "";
+				display: block;
+				width: 0;
+				height: 0;
+			    border-left: 7px solid transparent;
+			    border-right: 7px solid transparent;
+			    border-bottom: 8px solid rgba(107,107,107,1);
+			    top: -8px;
+			    left: 20px;
+			}
+			.manager .dropdown-menu li{
+				background: rgba(107,107,107,1);
+			}
+			.dropdown-menu>li>a{
+				line-height: 40px;
+				padding: 0;
+				color: #FFFFFF;
+			}
+			.nav{
+				padding: 10px;
+			}
+			.nav img{
+				width: 100%;
+			}
+			.banner-group{
+				padding: 5px;
+				height: 300px;
+			}
+			.banner-group .col-md-4{
+				padding: 0 5px;
+			}
+			.banner-atom{
+				background: rgba(215,215,215,1);
+				box-sizing: border-box;
+				height: 300px;
+				text-align: center;
+				line-height: 300px;
+			}
+			.footer{
+			    margin: 15px 10px;
+			    /*padding: 10px;*/
+			    background: rgba(242,242,242,1);
+			    height: 75px;
+			}
+			.footer .describe{
+				float: left;
+				margin-left: 10px;
+			}
+			.footer .addrss{
+				float: right;
+				margin-right: 10px;
+				padding: 7.5px 0;
+			}
+			.describe img{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.describe-content{
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: 10px;
+			}
+			.describe:after{
+				display: inline-block;
+				height: 75px;
+				content: "";
+				vertical-align: middle;
+			}
+			.describe-content p,.describe-content span,.addrss p{
+				text-decoration:underline;
+				color: rgba(149,149,149,1);
+			    font-weight: bold;
+			    display: inline-block;
+			    margin: 0;
+			    line-height: 30px;
+			}
+			.addrss p{
+				display: block;
+				text-decoration: none;
+			}
+			.describe-content span{
+				text-decoration: none;
+				margin: 0 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header ">
+			<div class="log">
+				<img src="../img/banner_log01.png" />
+				<span class="log-title">游戏活动</span>
+			</div>
+			<div class="manager topbar-right">
+				<ul class="navbar-nav">
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img alt="" class="img-circle" src="http://dayu.oa.com/avatars/v_huanzzhou/avatar.jpg">                         
+                            <span class="username username-hide-on-mobile">Lexiwu </span><i class="fa fa-angle-down" style="font-size:20px;"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default" style="margin-top: 0;">                               
+                            <li><a href="http://ooms.oa.com/_logout/?url=http://ooms.oa.com">后台管理</a></li>
+                            <li><a href="http://ooms.oa.com/_logout/?url=http://ooms.oa.com">个人设置</a></li>
+                            <li><a href="http://ooms.oa.com/_logout/?url=http://ooms.oa.com">登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+			</div>
+		</div>
+		<div class="nav">
+			<img src="../img/banner.png" />
+		</div>
+		<div class="banner-group">
+			<div class="col-md-4"><div class="banner-atom"><span>游戏XXX图</span></div></div>
+			<div class="col-md-4"><div class="banner-atom"><span>游戏XXX图</span></div></div>
+			<div class="col-md-4"><div class="banner-atom"><span>游戏XXX图</span></div></div>
+		</div>
+		<div class="footer clearfix">
+			<div class="describe">
+				<img src="../img/banner_log01.png" />
+				<div class="describe-content">
+					<p class="contact">About Us</p>
+					<div><p>TERMS CLE SERYICE </p><span>& </span><p>FSIVACY SIATEMENII</p></div>
+				</div>
+			</div>
+			<div class="addrss">
+				<p>SUPPORT EMAILxxx@XXX.COM</p>
+				<p>Discord GroupXXXXXXXXXXX</p>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.slideSelect,.content{
+				display: inline-block !important;
+				vertical-align: top;
+			}
+			.slideSelect{
+				width: 20%;
+			}
+			.content{
+				width:76%;
+				border: 1px solid rgba(0,0,0,.2);
+				font-size: 0;
+			}
+			.chartList{
+				display: inline-block;
+				width: 100%;
+				font-size: 14px;
+			}
+			.chartItem{
+				width:32%;
+				height:200px;
+				margin:1% 1% 0 0;
+				background: rgba(0,0,255,.1);
+				float: left;
+				min-width: 200px;
+			}
+			.chartList > .chartItem:first-child{
+				margin-left: 1%;
+			}
+			.chartList:last-child > .chartItem{
+				margin-bottom: 1%;
+			}
+			.chartList > .chartItem:last-child{
+				float: right;
+			}
+			.wrap{
+				margin: 0 auto;
+				width:80%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="slideSelect">
+				<select name="">
+					<option value="">1111</option>
+					<option value="">2222</option>
+					<option value="">11333311</option>
+				</select>
+			</div>
+			<div class="content">
+				<div class="chartList">
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+				</div>
+				<div class="chartList">
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+				</div>
+				<div class="chartList">
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+				</div>
+				<div class="chartList">
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+					<div class="chartItem"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

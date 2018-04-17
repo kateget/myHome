@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<style>
+			button{
+				display: block;
+			    width: 100px;
+			    height: 34px;
+			    border: none;
+			    background: rgba(0,15,44,.5);
+			    border-radius: 3px;
+			    cursor: pointer;
+			    transition: all 1s;
+			}
+			@-webkit-keyframes isbutton{
+				0%{transform: scale(1);}
+				50%{transform: scale(.95);}
+				100%{transform: scale(1);}
+			}
+			
+			a{
+				text-decoration: none;
+			    width: 100%;
+			    display: block;
+			    height: 100%;
+			    line-height: 32px;
+			}
+		</style>
+	</head>
+	<body>
+		<span>this is 0</span>
+		<button><a>点我</a></button>
+		<script>
+			var count = 0;
+			localStorage.setItem('mycount', 0);
+			$("button").click(function(){
+				$(this).css("animation","isbutton .2s");
+				localStorage.setItem('mycount',parseInt( localStorage.getItem("mycount"))+1);
+				$("span").text("this is "+(++count));
+				$.ajax({
+					type:"get",
+					url:"./count.html",
+					success: function(data){
+						console.log("这是第 "+localStorage.getItem("mycount")+" 次点击");
+					}
+				});
+			})
+		</script>
+	</body>
+</html>

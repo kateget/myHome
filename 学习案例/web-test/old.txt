@@ -1,0 +1,71 @@
+
+
+h1标题：
+
+snippet.html
+
+    ~~NOTOC~~
+    <well size="sm">
+    ======  GPCLite SDK接入指引：Unity版本 ======  
+    <show><text align="left" transform="lowercase"></text></show>
+    <accordion id="right-text">
+    本词条：<text>gpclite/sdk_unity.txt</text> 于 <text>2017-09-22 21:00</text> 由 <text>euphrochen</text>更新
+    </accordion>
+    </well>
+
+h2标题：
+
+snippet.html
+
+    ===== 一、注册 Google Play 应用 =====
+
+h3标题：
+
+snippet.html
+
+    <pane id="flex-h4">
+    ====1.拟定应用的包名（Package Name)====
+    <pills></pills>
+    </pane>
+
+h4标题：
+
+snippet.html
+
+    === 1.2.1 AndroidManifest.xml 文件 ===
+
+h5标题：
+
+snippet.html
+
+    == 1.2.1.1 权限配置 ==
+
+缩进-20：
+
+snippet.html
+
+    <pane id="index-20">
+    操作步骤如下：
+     
+    1.登录 `Facebook`，点击页面顶部自己的头像图标
+     
+    {{:pasted:20170919-100146.png}}
+     
+    2.在地址栏中可以找到自己的 `Facebook ID`
+     
+    如果自己设置过英文 `username`，地址栏中会显示英文 ID：
+     
+    {{:pasted:20170919-100409.png}}
+     
+    如果没有设置过英文 `username`，地址栏中会显示数字 ID：
+     
+    {{:pasted:20170919-100635.png}}
+    </pane>
+
+向前缩进-20：
+	<pane id="indetReduce-20">
+	</pane>
+
+图片自适应：
+    <pane id="imgAuto">
+    </pane>

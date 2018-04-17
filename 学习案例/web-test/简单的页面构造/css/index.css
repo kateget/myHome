@@ -1,0 +1,35 @@
+body{
+	margin: 0;
+}
+ul{
+	list-style: none;
+}
+.flex:after{
+	content: "";
+	display: inline-block;
+	clear: both;
+}
+.header{
+	padding: 5px 0;
+	background: rgba(215,215,215,1);
+	/*display: inline-block;*/
+	width: 100%;
+}
+.header .log{
+	margin-left: 20px;
+	float: left;
+}
+.header .log img{
+	height: 50px;
+	width: 50px;
+	vertical-align: middle;
+}
+.header .log span{
+	vertical-align: middle;
+}
+.header .manager{
+	float: right;
+}
+.header .manager .Head_portrait{
+	
+}

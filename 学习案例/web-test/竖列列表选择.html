@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<style>
+			.listName1{
+			    list-style: none;
+			    padding: 10px 20px;
+			    margin: 0;
+			    background: #F9F9F9;
+			}
+			.listName1 .user1:nth-of-type(1){
+			    background: #3A6CA9;
+			    color: #FFFFFF;
+			}
+			.user1{
+				border-top: 1px solid #E6E6E6;
+				line-height: 34px;
+				font-size: 0;
+				cursor: pointer;
+			}
+			.user1 input{
+			    margin: 0 20px 0 10px;
+			}
+			.user1:last-child{
+				border-bottom: 1px solid #E6E6E6;
+			}
+			.user1:nth-child(even){
+				background: #FFFFFF;
+			}
+			.user1:nth-child(odd){
+				background: #F9F9F9;
+			}
+			.span-item1{
+			    display: inline-block;
+			    width: 200px;
+			    margin: 0;
+			    padding: 0;
+			    font-size: 14px;
+			}
+			
+			/* 弹窗 */
+			ul{
+				list-style: none;
+			}
+			.dialog{
+		        position: absolute;
+			    width: 550px;
+			    /* height: 400px; */
+			    left: 50%;
+			    top: 50%;
+			    background: rgba(247,247,246,1);
+			    transform: translateX(-50%) translateY(-50%);
+			    box-shadow: 0 0 0 9999px rgba(0,0,0,.7);
+			    padding: 0 10px 40px 10px;
+			    display: none;
+			}
+			.dialog-content ul.list{
+				padding: 0;
+			}
+			.dialog .head{
+			    margin: 5px 0;
+			    background: rgba(247,247,246,1);
+			}
+			.dialog .dialog-content{
+			    background: rgba(236,233,223,1);
+			    padding: 20px;
+			}
+			.dialog .label-text{
+			    line-height: 27px;
+			    display: inline-block;
+			    width: 80px;
+			    text-align: right;
+		        margin-right: 25px;
+			}
+			.dialog .dialog-item{
+			    margin-bottom: 20px;
+			}
+			.dialog .dialog-item.pa{
+				display: none;
+			}
+			.dialog .input-text{
+				width: 300px;
+			    height: 25px;
+			    line-height: 25px;
+			    padding: 0;
+			    margin: 0;
+			    border: 1px solid rgba(0,0,0,0.2);
+			    border-radius: 2px;
+			    text-indent: 10px;
+			}
+			.dialog .input-text.frontPa,.dialog .input-text.behindPa{
+				width: 250px;
+			}
+			.dialog .input-text.interPa{
+				width: 98px;
+			}
+			
+			.dialog .input-text[name='ispassword']{
+				margin: 0px 20px 0 10px;
+				height: 20px;
+				width: 20px;
+			}
+			.dialog .usertype{
+				width: 300px;
+				height: 25px;
+			}
+			.dialog .save{
+				margin: 20px 10px 0 0;
+			    float: right;
+			    background: #B93400;
+			    color: #fff;
+			    border: none;
+			    width: 100px;
+			    height: 30px;
+			    border-radius: 5px;
+			    box-shadow: 0 0 5px 0 salmon;
+			    cursor: pointer;
+			    opacity: 0.9;
+			}
+			.dialog .save:hover{
+				opacity: 1;
+			}
+			.more1{
+			    text-align: center;
+			    height: 28px;
+			    line-height: 28px;
+			    background: rgba(45,123,206,.6);
+			    border-radius: 2px;
+			    cursor: pointer;
+			    color: #FFFFFF;
+			}
+			.more1:hover{
+				 background: rgba(45,123,206,.8);
+			}
+		</style>
+	</head>
+	<body>
+		<ul class="listName1">
+			<li class="user1">
+				<input name="checkbox" type="checkbox" />
+				<span class="span-item1">location</span>
+				<span class="span-item1">schema</span>
+				<span class="span-item1">返回数据类型</span>
+				<span class="span-item1">接口形式</span>
+			</li>
+			
+			<div class="more1">加载更多</div>
+		</ul>
+		<div class="dialog">
+			<div class="head">是否涉密</div>
+			<div class="dialog-content">
+				<ul class="list">
+					<li class="dialog-item">
+						<label class="label-text">字段名：</label>
+						<input class="input-text" type="text" placeholder="source_id" />
+					</li>
+					<li class="dialog-item">
+						<label class="label-text">中文名：</label>
+						<input class="input-text" type="text" placeholder="来源系统" />
+					</li>
+					<li class="dialog-item">
+						<label class="label-text">是否泄密：</label>
+						<input class="input-text" type="radio" name="ispassword" checked="checked" />
+						<input class="input-text" type="radio" name="ispassword" />
+					</li>
+					<li class="dialog-item">
+						<label class="label-text">涉密类型：</label>
+						<select class="usertype">
+							<option class="type-item" value="0" selected="selected">全字段涉密</option>
+							<option class="type-item" value="1">前置涉密</option>
+							<option class="type-item" value="2">中置涉密</option>
+							<option class="type-item" value="3">后置涉密</option>
+						</select>
+					</li>
+					<li class="dialog-item pa">
+						<label class="label-text">前置涉密：</label>
+						前<input class="input-text frontPa" type="text" />位涉密
+					</li>
+					<li class="dialog-item pa">
+						<label class="label-text">中置涉密：</label>
+						第<input class="input-text interPa" type="text"  />位，
+						至<input class="input-text interPa" type="text" />位涉密
+					</li>
+					<li class="dialog-item pa">
+						<label class="label-text">后置涉密：</label>
+						后<input class="input-text behindPa" type="text" />位涉密
+					</li>
+				</ul>
+			</div>
+			<button class="save">保存</button>
+		</div>
+		<script>
+			$(function(){
+				var arr = [{
+					"id" : 0,
+					"location" : "hive",
+					"shema" : "dd",
+					"type" : "xml",
+					"interType" : "ESB"
+				},{
+					"id" : 0,
+					"location" : "hive",
+					"shema" : "dd",
+					"type" : "xml",
+					"interType" : "ESB"
+				},{
+					"id" : 0,
+					"location" : "hive",
+					"shema" : "dd",
+					"type" : "xml",
+					"interType" : "ESB"
+				}];
+				var $ul = $(".more1");
+				
+				
+				$(document).on("click",".more1",function(){
+					//添加li节点
+					arr.map(function(value,index){
+						let $li = " <li class='user1' value="+value['id']+"><input name='checkbox' type='checkbox' /><span class='span-item1'>"+value['location']+"</span><span class='span-item1'>"+value['shema']+"</span><span class='span-item1'>"+value['type']+"</span><span class='span-item1'>"+value['interType']+"</span></li>";
+						$ul.before($li);
+					});
+				});
+			});
+			
+			var liData = {};
+			var $targetDom;
+			
+			$(document).on("click",".user1 input[name='checkbox']",function(e){
+				var $user = $(".user1 input[name='checkbox']");
+				var $input= $(e.target).parent();
+				var $ul = $(".listName1");
+				var $this = $(e.target);
+				
+				if(!$input.index()){
+					$ul.attr("data_attr","");
+					 var isChecked = $(this).prop("checked");
+					if(isChecked){
+						$user.prop("checked", true);	
+						let obj = [];
+						$user.map(function(index,value){
+							obj[index] = {};
+							$item = $(value).parents("li").find(".span-item1");
+							obj[index]["id"] = $item.parent().val();
+							obj[index]['location'] = $item.eq(0).text();
+							obj[index]['shema'] = $item.eq(1).text();
+							obj[index]['type'] = $item.eq(2).text();
+							obj[index]['interType'] = $item.eq(3).text();
+						});
+						$ul.attr("data_attr",JSON.stringify(obj));
+					}else{
+						$user.prop("checked", false);
+					}
+				}else{
+					var data = $ul.attr("data_attr");
+					let obj = [];
+					obj = data?JSON.parse(data):obj;
+					var $li = $this.parent();
+					if($this.is(':checked')){
+						let $item = $(this).parents("li").find(".span-item1");
+						let index = $(this).parents("li").index();
+						obj[index] = {};
+						obj[index]["id"] = $item.parent().val();
+						obj[index]['location'] = $item.eq(0).text();
+						obj[index]['shema'] = $item.eq(1).text();
+						obj[index]['type'] = $item.eq(2).text();
+						obj[index]['interType'] = $item.eq(3).text();
+						$this.prop("checked", true);
+					}else{
+						delete obj[$li.index()];
+						$this.prop("checked", false);
+					}
+					$ul.attr("data_attr",JSON.stringify(obj));
+				}
+			});
+			
+			//涉密选择
+			$(document).on("change",".usertype",function(){
+				var type = parseInt($(this).val());//选择涉密类型
+				$(".dialog-item.pa").css("display","none");
+				switch(type){
+					case 0:
+						break;
+					case 1:
+						$(".dialog-item.pa").eq(0).css("display","block");
+						break;
+					case 2:
+						$(".dialog-item.pa").eq(1).css("display","block");
+						break;
+					case 3:
+						$(".dialog-item.pa").eq(2).css("display","block");
+						break;
+				}
+			});
+			
+			//获取表单信息
+			$(document).on("click",".user1",function(){
+				$this = $(this);
+				$targetDom = $this;
+				if($this.index()){
+					$(".dialog").css("display","inline-block");
+				}
+				//获取当前点击行的所有文本
+				var $inputList = $this.find(".span-item1");
+				if(liData[$this.index()]){
+					var arr = liData[$this.index()] = {
+						"fontName" : $inputList.eq(0).text(),
+						"chinaName" : $inputList.eq(1).text(),
+						"isPa" : $inputList.eq(2).text(),
+						"paType" : $inputList.eq(3).text(),
+					};
+					
+					var $dialogitem = $(".dialog-item");
+					$dialogitem.eq(0).text(arr.fontName);
+					$dialogitem.eq(1).text(arr.chinaName);
+				}
+				
+			});
+			
+			$(document).on("click","body",function(e){
+				var classNa = $(e.target).attr("class");
+				var obj = {
+					"dialog" : 1,
+					"user1" : 1,
+					"span-item1" : 1,
+					"head" : 1,
+					"dialog-content" : 1,
+					"list" : 1,
+					"dialog-item" : 1,
+					"label-text" : 1,
+					"input-text" : 1,
+					"usertype" : 1
+				};
+				if(!obj[classNa]){
+					$(".dialog").css("display","none");
+					$targetDom = null;
+				}
+			});
+		</script>
+	</body>
+</html>

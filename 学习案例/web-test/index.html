@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		<style>
+			.pop{
+			 	visibility: hidden;
+			 	transition: visibility .2s ease-in-out;
+			 }
+			 .pop .cover{
+			 	position: fixed;
+			    width: 100%;
+			    height: 100%;
+			    background: rgba(0,0,0,.7);
+			    left: 0;
+			    top: 0;
+			    z-index: 9999;
+			 }
+			 .pop img{
+			    position: fixed;
+			    /*width: 200px;
+			    height: 200px;*/
+			   width: 0;
+			   height: 0;
+			    background: rgba(0,0,0,1);
+			    left: 50%;
+			    top: 50%;
+			    transform: translateX(-50%) translateY(-50%);
+			    z-index: 9999;
+			 }
+			 .sorting_1{
+			 	position: absolute;
+			 	
+			 }
+			button{
+			    background: red;
+			    z-index: 9998;
+			    width: 200px;
+			    height: 200px;
+			    z-index: 1;
+			    top: 500px;
+			    position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="sorting_1" style="width: 200px;height: 200px;border: 1px solid royalblue;"></div>
+		<button ></button>
+		<div class="pop">
+			<div class="cover"></div>
+			<img src="" />
+		</div>
+		
+		<script>
+			//弹出层控制
+		$(document).on("click",".sorting_1",function(){
+			$(".pop").css("visibility","visible");
+			$(".pop img").animate({"width":200,"height":200});
+		});
+		$(document).on("click",".pop",function(){
+			$(".pop").css("visibility","hidden");
+			$(".pop img").animate({"width":0,"height":0});
+		});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body onload="">   
+  <script>
+  	var oDateNow = new Date();
+	var oYear = oDateNow.getFullYear();
+	var oDateEnd = new Date();
+	oDateEnd.setFullYear(oYear+1);
+	oDateEnd.setMonth(0);
+	oDateEnd.setDate(0);
+	oDateEnd.setHours(0);
+	oDateEnd.setMinutes(0);
+	oDateEnd.setSeconds(0);
+	function upDate(){
+		var oDateNow = new Date();
+		var iTime = oDateEnd.getTime()-oDateNow.getTime();
+		var iRemain = iTime/1000;
+		var iDay=parseInt(iRemain/86400);
+		iRemain%=86400;
+		var iHour=parseInt(iRemain/3600);
+		iRemain%=3600;
+		var iMin=parseInt(iRemain/60);
+		iRemain%=60;
+		var iSec=parseInt(iRemain);
+		console.log(oYear+"年还剩"+iDay+"天"+iHour+"时"+iMin+"分"+iSec+"秒");
+	}
+	setInterval(function(){ upDate() },1000);
+  </script>
+	</body>  
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			var str = "2017-01-24";
+			var exec = /\b\d\d(\d\d)-\1-\1\b/;
+//			var exec = /\b\d\d\1-\1-(\d\d)\b/;
+			var exec = /\b\d\d(\d\d)-(\d\d)-(\d\d)\b/;
+//			var exec = /\d\d(\d\d)/;
+			var t = str.match(exec);
+			console.log(t);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/echarts.min.js" ></script>
+	</head>
+	<body>
+		<div id="main" ></div>
+		<script>
+			//准备好dom,初始化echarts实例
+			var mycharts = echarts.init(document.getElementById("main"));
+			
+			//指定图表配置项和数据
+			option = {
+			    title: {
+			        x: 'left',
+			        text: 'Daily Register and Organic Rate',
+			    },
+			    tooltip: {
+			        trigger: 'axis'
+			    },
+//			    toolbox: {
+//			        show: true,
+//			        feature: {
+//			            dataView: {show: true, readOnly: false},
+//			            restore: {show: true},
+//			            saveAsImage: {show: true}    //设置柱状图   数据展示  是否提供图片下载
+//			        }
+//			    },
+			    calculable: true,
+			    legend: {
+//			    	 x: 'left',
+			        data:['iOS 新进Register','Android 新进 Register','DAU']
+			    },
+			    grid: {
+			        borderWidth: 0,
+			        y: 80,
+			        y2: 60
+			    },
+			    xAxis: [
+			        {
+			            type: 'category',
+			            show: true,
+			            data: ['2017/8/10','2017/8/11','2017/8/12','2017/8/13','2017/8/14','2017/8/15','2017/8/16','2017/8/17','2017/8/18','2017/8/19','2017/8/20','2017/8/21','2017/8/22','2017/8/23','2017/8/24'],
+			            axisLine : {    // 轴线
+			                show: true,
+			                lineStyle: {
+			                    color: '#D9D9D9',
+			                    type: 'solid',
+			                    width: 2
+			                }
+			            },
+			            axisTick : {    // 轴标记
+			                show:true,
+			                length: 12,
+			            },
+			            axisLabel: {
+			            	show: true,
+			            	interval:0,//坐标显示不全时候，加此属性
+							rotate: 60,
+							margin:8,
+							formatter: '{value}',
+							color: '#B17859'
+						}
+			        }
+			    ],
+			    yAxis: [
+			        {
+			           	type: 'value',
+			            show: true,
+			            position: 'left',
+			            boundaryGap: [0,0.1],
+			            axisLine: {
+			            	show: false
+			            },
+			            axisTick : {
+			            	show: false
+			            },
+			            axisLabel: {
+			            	show: true,
+			            	formatter: '{value}'
+			            }
+			        },
+			        {
+			            type : 'value',
+			            splitNumber: 10,
+			            axisLabel : {
+			                formatter: function (value) {
+			                    // Function formatter
+			                    return value
+			                }
+			            },
+			            axisLine: {
+			            	show: false
+			            },
+			            axisTick: {
+			            	show: false
+			            },
+			            splitLine : {
+			                show: false
+			            }
+			        }
+			    ],
+			    series: [
+			        {
+			            name: 'iOS 新进Register',
+			            type: 'bar',
+			            stack: '广告',
+			            itemStyle: {
+			                normal: {
+			                    color:'#2EC7C9',
+			                    label: {
+			                        show: false,
+			                        position: 'top',
+//			                        formatter: '{b}\n{c}'
+								    formatter: '{c}' //单位
+			                    }
+			                }
+			            },
+			            barWidth: 20,
+			            data: rand(2000,4000)
+			        },
+			        {
+			            name: 'Android 新进 Register',
+			            type: 'bar',
+			            stack: '广告',
+			            itemStyle: {
+			                normal: {
+			                    color: '#B6A2DE',
+			                    label: {
+			                        show: false,
+			                        position: 'top',
+//			                        formatter: '{b}\n{c}'
+								    formatter: '{c}' //单位
+			                    }
+			                }
+			            },
+			            data: rand(5000,8000)
+			        },
+			        {
+			            name: 'DAU',
+			            type: 'line',
+			            yAxisIndex: 1,
+			            itemStyle: {
+			                normal: {
+			                    color: '#5AB1EF',
+			                    label: {
+			                        show: false,
+			                        position: 'top',
+//			                        formatter: '{b}\n{c}'
+								    formatter: '{c}' //单位
+			                    }
+			                }
+			            },
+			            data: rand(90000,120000)
+			        }
+			    ]
+			};
+			function rand(x,y){
+				var i=0;
+				var arr = [];
+				for(var i=0;i<=14;i++){
+					var rand = Math.ceil(Math.random()*(x-y)+y);
+					arr.push(rand);
+				}
+				return arr;
+			}
+			//使用刚指定的配置项和数据图示表
+			mycharts.setOption(option);
+		</script>
+	</body>
+</html>

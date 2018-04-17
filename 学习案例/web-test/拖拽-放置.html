@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>拖拽-放置</title>
+		<style>
+			ul{
+				height: 300px;
+				width: 300px;
+				float: left;
+				padding: 10px;
+				margin: 20px;
+				list-style: none;
+				border: 1px solid #EEE8D5;
+				border-radius:5px ;
+			}
+			ul li{
+				background: #EEE8D5;
+				height: 30px;
+				width: 300px;
+				line-height: 30px;
+				border-radius:5px ;
+				margin: 10px 0;
+				text-indent: 10px;
+				cursor: move;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<ul>
+				<li>a</li>
+				<li>b</li>
+				<li>c</li>
+			</ul>
+			<ul></ul>
+			<ul></ul>
+		</div>
+		
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script>
+			$(function(){
+				drag.init('container');
+			});
+			
+			var drag = {
+				x: 0,
+				y: 0,
+				_x: 0,//鼠标与原节点距离
+				_y: 0,
+				
+				temp: null,//原节点
+				newTemp: null,//新节点
+				
+				isDrag: false,
+				class_name: null,
+				
+				init : function(className){
+					//允许拖拽节点的父容器的classname(可按照需要，修改为id或其他)
+					drag.class_name = className;
+					
+					 //监听鼠标按下事件，动态绑定要拖拽的节点（因为节点可能是动态添加的）
+					$('.'+drag.class_name).on('mousedown','ul li',function(event){
+						drag.isDrag = true;
+						var e = event?event:window.event;
+						//获取原节点
+						drag.temp = $(this);
+						drag.mousedown(e);
+						return false;
+					});
+					
+					//监听鼠标移动
+					$(document).mousemove(function(event){
+						var e = event?event:window.event;
+						if(!drag.isDrag)return false;
+						drag.mousemove(e);
+						return false;
+					});
+					
+					//监听鼠标弹起
+					$(document).mouseup(function(event){
+						var e = event?event:window.event;
+						drag.mouseup(e);
+						return false;
+					});
+				},
+				
+				mousedown : function(e){
+					drag.x = $(drag.temp).offset().left;
+					drag.y = $(drag.temp).offset().top;
+					drag._x = e.pageX-drag.x;
+					drag._y = e.pageY-drag.y;
+					
+					drag.newTemp = $(drag.temp).clone();
+					$(drag.temp).parent().append(drag.newTemp);
+					$(drag.newTemp).css({
+						"position": "absolute",
+						"background": "rgb(188, 214, 141)",
+						"left": drag.x,
+						"top": drag.y,
+					});
+					
+					drag.temp.css("background","#BCD68D");
+				},
+				
+				mousemove : function(e){
+					
+//					document.oncontextmenu=new Function("event.returnValue=false;");
+//					document.onselectstart=new Function("event.returnValue=false;"); //防止鼠标右键效果
+					
+					var x = e.pageX - drag._x;
+					var y = e.pageY - drag._y;
+					var maxL = $(document).width() - $(drag.temp).outerWidth();
+					var maxT = $(document).height() - $(drag.temp).outerHeight();
+					
+					x = x<0?0:x;
+					y = y<0?0:y;
+					x = x<maxL?x:maxL;
+					y = y<maxT?y:maxT;
+					
+					$.each($('.'+drag.class_name+' ul'),function(index,value){
+						var box_x = $(value).offset().left;
+						var box_y = $(value).offset().top;
+						var box_width = $(value).outerWidth();
+						var box_height = $(value).outerHeight();
+						
+						if(e.pageX>box_x && e.pageX<box_x-0+box_width && e.pageY>box_y && e.pageY<box_y-0+box_height){
+							if(drag.temp.parent().offset().left !== $(value).offset().left || drag.temp.parent().offset().top !== $(value).offset().top)
+							{
+								$(value).css("background","rgb(188, 214, 141)");
+							}
+						}else{
+							$(value).css("background","#FFFFFF");
+						}
+					});
+					
+					$(drag.newTemp).css({
+						"left" : x,
+						"top" : y
+					});
+				},
+				
+				mouseup : function(e){
+					if(drag.isDrag){
+						drag.isDrag = false;
+						drag.newTemp.remove();
+						$.each($('.'+drag.class_name+' ul'),function(index,value){
+							var box_x = $(value).offset().left;
+							var box_y = $(value).offset().top;
+							var box_width = $(value).outerWidth();
+							var box_height = $(value).outerHeight();
+							
+							if(e.pageX>box_x && e.pageX<box_x+box_width && e.pageY>box_y && e.pageY<box_y+box_height){
+								$(value).append(drag.temp);
+								
+							}
+							$(value).css("background","#FFFFFF");
+						});
+						
+						drag.temp.css("background","#EEE8D5");
+					}
+					
+				}
+			};
+		</script>
+	</body>
+</html>

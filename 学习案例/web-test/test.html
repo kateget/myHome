@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				background: rgba(0,0,0,.8);;
+			}
+			.item{
+				position:relative;
+				padding-left:200px;
+				padding-bottom:20px;
+				box-sizing: border-box;
+				border:1px solid gray;
+				display: inline-block;
+				width:100%;
+			}
+			.item:after{
+				content: "";
+				display: inline-block;
+				clear: both;
+			}
+			.img{
+				width:30%;
+				height:200px;
+				float: left;
+			}
+			.item-content{
+				float:left;
+				width:70%;
+			}
+			.time{
+				position:absolute;
+				bottom:0;right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="item">
+			<div class="img"></div>
+			<div class="item-content">
+				
+			</div>
+			<div class="time">
+				
+			</div>
+		</div>
+		<div style="position:relative">A</div>
+		<div style="position:relative">B</div>
+		<img src="img/active-bg.png" />
+	</body>
+<ml>

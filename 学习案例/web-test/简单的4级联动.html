@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>4级联动效果</title>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<style>
+			.cascade-container{
+				display:block;
+				height: 500px;
+			}
+			.cascade-container ul{
+				float : left;
+				height: 100%;
+				width:300px;
+				border:1px solid #EEE8D5;
+				border-radius:5px;
+				padding:0;
+				margin:0 10px 0 0;
+			}
+			.cascade-container li{
+				list-style: none;
+				width: 280px;
+				margin:5px 10px;
+				background:#BCD68D;
+				border-radius:5px;
+				height: 30px;
+				line-height:30px;
+				color:#fff;
+				text-indent:20px;
+				cursor:pointer;
+				position:relative;
+				transition: background-color 0.2s ease;
+			}
+			.cascade-container li:hover{
+				opacity: 0.7;
+			}
+			.cascade-container li.selected{
+				background: #1D3352;
+			}
+			.cascade-container li.hasSub:after{
+			    position: absolute;
+			    content: "";
+			    display: block;
+			    right: 10px;
+			    top: 9px;
+			    width: 0;
+			    height: 0;
+			    border-right: 6px solid transparent;
+			    border-left: 6px solid #F9CC9D;
+			    border-top: 6px solid transparent;
+			    border-bottom: 6px solid transparent;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cascade-container">
+		</div>
+		
+		<script>
+			$(function(){
+				$(document).on("click","ul li",function(){
+					ajaxREObj.targetObj = $(this);
+					$.each($(this).parent().find("li"), function(liNode) {
+						$(this).removeClass("selected");
+					});
+					$(this).addClass("selected");
+					ajaxREObj.isInit = false;
+					var isHasSub = $(this).hasClass('hasSub');
+					//当有子元素的时候，赋予点击事件
+					if(isHasSub){
+						var index = $(this).parent().index();//判断当前点击的li节点属于哪个ul的下标，最小下标为0
+						ajaxREObj.getAjaxData("data00"+(index+2)+'.json');//传入获取数据的url，这个地方我是模拟，你自己传相对于的url即可
+					}else{
+						ajaxREObj.clearNode();
+					}
+				});
+				$(document).on('click',"body",function(e){
+					if(e.target.tagName == "UL" || e.target.tagName == "LI"){
+						
+					}else{
+						$.each($(".cascade-container").find("ul"), function() {
+							if($(this).index() == 0){
+								$(this).find("li").removeClass("selected");
+							}else{
+								$(this).remove()
+							}
+						});
+					}
+				})
+				//将方法封装成对象
+				var ajaxREObj = {
+					targetObj : null,//被点击的节点
+					isInit : true,
+					
+					//拉取第一列数据
+					init : function(){
+						ajaxREObj.getAjaxData('data001.json');
+						ajaxREObj.targetObj = $(".cascade-container");
+					},
+					//获取 页面data001.json 的数据
+					getAjaxData : function(url){
+						$.ajax({
+						   type: 'GET',
+						   url: url ,
+//						  data: data ,
+						  success: function(data){
+						  	ajaxREObj.insertData(data);
+						  } ,
+						  error : function(){
+						  	alert("url: "+url+" 请求失败！");
+						  }
+						});
+					},
+					
+					//讲数据整合成节点
+					nodeToString : function(data){
+						var str = '<ul>';
+						data.filter(function(node){
+							node.isSub == "true"?str+='<li class="hasSub">'+node.title+'</li>':str+='<li>'+node.title+'</li>';
+							
+						});
+						str+='</ul>'
+						return str;
+					},
+					
+					//清除同级元素添加的子菜单
+					clearNode : function(){
+						var index = ajaxREObj.targetObj.parent().index();
+						var ulArr = ajaxREObj.targetObj.parents(".cascade-container").find("ul");
+						$.each(ulArr, function(ulNode) {
+							$(this).index()> index?$(this).remove():'';
+						});
+					},
+					
+					//对数据进行插入
+					insertData : function(data){
+						var str = ajaxREObj.nodeToString(data);
+						if(ajaxREObj.isInit){
+							ajaxREObj.targetObj[0].innerHTML = "";
+							ajaxREObj.targetObj.append(str);
+						}else{
+							ajaxREObj.clearNode();
+							ajaxREObj.targetObj.parents(".cascade-container").append(str);
+							ajaxREObj.targetObj.parent().next().css({'opacity':'0',"height":"0"}).animate({'opacity':'1',"height":"100%"});
+						}
+						
+					},
+				}
+				ajaxREObj.init();
+			});
+		</script>
+	</body>
+</html>

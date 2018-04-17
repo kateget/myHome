@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/echarts.min.js" ></script>
+	</head>
+	<body>
+		<div id="main" style="width: 400px;height: 400px;"></div>
+		<script>
+			//准备好dom,初始化echarts实例
+			var mycharts = echarts.init(document.getElementById("main"));
+			
+			//指定图表配置项和数据
+			var option = {
+				title : {
+					text : 'echart 入门实例'
+				},
+				tooltip : {},
+				legend : {
+					data : ['销量'],
+					textStyle : {
+						fontSize : 14
+					},
+					animation : false
+				},
+				tooltip : {
+					show : true
+				},
+				"toolbox" : {
+					show : true,
+					feature: {
+			            dataZoom: {
+			                yAxisIndex: 'none'
+			            },
+			            dataView: {readOnly: false},
+			            magicType: {type: ['line', 'bar']},
+			            restore: {},
+			            saveAsImage: {}
+			        }
+				},
+				xAxis : {
+					data : ["衬衫",'雪衬衫','羊毛衫','裤子','高跟鞋','袜子']
+				},
+				yAxis : {},
+				grid : {
+					show : true,
+					borderColor : "rgba(132,197,232,1)",
+					zlevel : 0
+				},
+				series : [{
+					name : '销量',
+					type : 'bar',
+					data : [5,20,26,10,10,20]
+				}]
+			};
+			
+			//使用刚指定的配置项和数据图示表
+			mycharts.setOption(option);
+		</script>
+	</body>
+</html>

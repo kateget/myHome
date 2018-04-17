@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+	</head>
+	<body>
+		<script>
+			var url = "xxxx.com?param=xxx&param1=tt";
+			var url1 = "";
+			var obj = {};
+			obj["param"] = "aa",obj['param1'] = "bb";
+			var param = url.split("?");
+			url1 += param[0]+"?";
+			if(param[1]){
+				var params = param[1].split("&");
+				for(var i=0;i<params.length;i++){
+					var key = params[i].split("=")[0];
+					url1 += key+"="+obj[key]+(i==params.length-1?"":"&");
+				}
+			}else{
+				url = param[0]+"?param="+obj["param"]+"&param1="+obj["param1"];
+			}
+			console.log(url1);
+//			var exec = /.*?\?[.*?\=(.*?)]/;
+		</script>
+	</body>
+</html>

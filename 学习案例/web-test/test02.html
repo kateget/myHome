@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		<script type="text/javascript" src="js/tableConstructAdd.js" ></script>
+	</head>
+	<body>
+		 <table id="tab" class="table table-bordered table-hover text-center t-td-pnone">
+			                    	<thead class="bordered-blueberry">
+	                                    <tr>
+	                                    	<th width="5%"></th>
+	                                        <th width="15%" class="text-center">字段名</th>
+	                                        <th width="16%" class="text-center">字段类型</th>
+	                                        <th width="20%" class="text-center">精度</th>
+	                                        <th width="22%" class="text-center">备注</th>
+	                                        <th width="10%" class="text-center">操作</th>
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                    	<tr>
+			<td style="text-align: center; vertical-align: middle; width: 45px; "><i class="fa fa-arrows"></i></td>
+		    <td data-name="fieldName"><input class="t-p-pnone" type="text"/></td>
+		    <td data-name="fieldType"><select class="t-p-pnone c-type">
+	             <option selected="selected">string</option>
+	             <option>tinyint</option>
+	             <option>smallint</option>
+	             <option>int</option>
+	             <option>bigint</option>
+	             <option>boolean</option>
+	             <option>float</option>
+	             <option>double</option>
+	             <option>char</option>
+	             <option>varchar</option>
+	             <option>decimal</option>
+	             <option>array</option>
+	             <option>map</option>
+	             <option>date</option>
+	             <option>timestamp</option></select></td>
+		    <td data-name="fieldTypeval"><input class="t-p-pnone" disabled="disabled" type="text"/></td>
+			<td data-name="fieldComment"><input class="t-p-pnone" type="text"/></td>
+		
+		    <td><i class="fa fa-times del_row" style="cursor: pointer;" title="刪除"></i></td>
+		</tr>
+	                                </tbody>
+			                    </table>
+		<script>
+//			$(document).on("change","select",function(){
+//				alert(1);
+//			});
+		</script>
+	</body>
+</html>

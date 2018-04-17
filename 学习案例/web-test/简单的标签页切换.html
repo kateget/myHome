@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>简单的标签页切换</title>
+		<style>
+			body{
+				margin: 0;
+			}
+			.content{
+				position:relative;
+				width:400px;
+				margin: 50px auto;
+			}
+			ul{
+				list-style: none;
+				position: absolute;
+				left: 0;
+				right: 0;
+				margin: 0;
+				top: 0;
+				padding: 0;
+				line-height: 30px;
+				text-align: center;
+			}
+			li{
+				width: 190px;
+				background: rgba(80,113,23,.6);
+				border-radius:2px;
+				float: left;
+			}
+			li:first-child{
+				margin-right: 20px;
+			}
+			li:hover{
+				background: rgba(0,0,112,.4);
+			}
+			a{
+				text-decoration: none;
+				color: rgba(21,24,152,.7);
+				width:190px;
+				display: inline-block;
+			}
+			#container1,#container2{
+				padding: 40px 10px 10px 10px;
+				display: none;
+			}
+			#container1.active ~ ul li.tab-content1,#container2.active ~ ul li.tab-content2{
+				background: rgba(0,0,112,.4);
+			}
+			#container1:target,
+			#container2:target{
+				display: block;
+			}
+			#container1:target,
+			#container2:target{
+				display: block;
+			}
+			#container1.active{
+				display: block;
+			}
+			#container1:target ~ ul li,#container2:target ~ ul li{
+				background: rgba(80,113,23,.6);
+			}
+			/*#container1:target ~ ul li.tab-content1,#container2:target ~ ul li.tab-content2{
+				background: rgba(0,0,112,.4);
+			}*/
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<div id="container1" class="active">1213</div>
+			<div id="container2">dsf</div>
+			<ul>
+				<li class="tab-content1"><a href="#container1">标签页1</a></li>
+				<li class="tab-content2"><a href="#container2">标签页2</a></li>
+			</ul>
+		</div>
+
+	</body>
+</html>

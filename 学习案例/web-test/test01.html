@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			function test(){
+				var a = ['t','a','e','d',1,2];
+				var obj = {'t':1,'a':2,'c':3,'v':4,1:2};
+				var keys = Object.keys(obj);
+				
+				keys.filter(function(t){
+					a = a.filter(function(e){
+						return String(e)!==t;
+					});
+				});
+				alert(a);
+			}
+			test();
+		</script>
+		<p title="sdfafdf">sldjflkds</p>
+	</body>
+</html>

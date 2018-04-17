@@ -1,0 +1,135 @@
+<html>
+<head>
+	<style>
+		ul{
+			list-style: none;
+			margin: 10px 0 0 0;
+			padding: 0;
+		}
+		.autoComplete{
+		    box-shadow: 0 0 3px 0px saddlebrown;
+   			width: 400px;
+   			height: 400px;
+   			overflow: scroll;
+   			overflow-x:hidden;
+   			overflow-y:auto;
+   			position: absolute;
+		}
+		.autoComplete li{
+		    line-height: 30px;
+		    border-bottom: 1px solid silver;
+		    cursor: pointer;
+		    padding: 5px;
+		    box-sizing: border-box;
+		}
+		.autoComplete li:last-child{
+			border: 0;
+		}
+		.autoComplete li.curHover{
+			background: #C8E4FF;
+		}
+	</style>
+</head>
+<body>
+	<textarea class="userInput" placeholder="请输入用户名" style="width: 400px;height: 300px;"></textarea>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+	<script>
+		var user = [];
+		var userList = [];
+		var inputText = "";
+		
+		$.ajax({
+			type:"get",
+			url:"js/username.js",
+			async:true,
+			success: function(data){
+				user = JSON.parse(data).user;
+			}
+		});
+		
+		$(function(){
+			$(document).on("keyup",".userInput",function(e){
+				$this = $(this);
+				if((e.keyCode >=65 && e.keyCode<=90) || (e.keyCode >=48 && e.keyCode <=59) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode == 8 || e.keyCode == 32 || e.keyCode == 13 || (e.keyCode >=37 && e.keyCode <=40)){
+					$nameText = $(this).val();
+					if($nameText.trim().length && (!$nameText.match(/\s$/)) || e.keyCode == 13){
+						$nameText = $nameText.replace(/\,|\*|\/|\-|\.|\;/g,";").trim();
+						var arr = $nameText.split(";");
+						var text = arr.pop();//得到当前输入的文本
+						inputText = arr.join(";");
+						userList = [];
+						$.each(user, function(index,value) {
+							if(value.name.indexOf(text) !== -1 || value.ch_name.indexOf(text) !== -1){
+								userList.push(value);
+							}
+						});
+						if(userList.length && e.keyCode !== 13 && !(e.keyCode >= 37 && e.keyCode <= 40)){
+							var $autoComplete = $this.next(".autoComplete");
+							$autoComplete[0]?$autoComplete.remove():"";
+							
+							$userList = "<ul class='autoComplete'></ul>";
+							
+							$this.after($userList);
+							$userList = $this.next(".autoComplete");
+							$.each(userList, function(index,value) {
+								let $userLi = "<li class='liItem"+(index==0?" curHover":"")+"' value = "+value['name']+"("+value['ch_name']+")>"+value['name']+"("+value['ch_name']+")</li>";
+								$userList.append($userLi);
+							});
+						}else if(e.keyCode >= 37 && e.keyCode <=40){//方向键的移动事件
+							var $selectedNode = $(".liItem.curHover");
+							var $ulList = $(".autoComplete");
+							var ulTop = $ulList.offset().top;
+							var changeWidth = $ulList.find("li").eq(1).offset().top-ulTop;
+							var selectedIndex = $selectedNode.index();
+							$(".autoComplete").scrollTop( Math.floor((selectedIndex+1)/8)*changeWidth);
+							
+							switch(e.keyCode){
+								case 37:
+									break;
+								case 38:
+									if($selectedNode.prev()[0]){
+										$selectedNode.removeClass("curHover").prev().addClass("curHover");
+									}
+									break;
+								case 39:
+									break;
+								case 40:
+									if($selectedNode.next()[0]){
+										$selectedNode.removeClass("curHover").next().addClass("curHover");
+									}
+							}
+						}else{
+							if(e.keyCode == 13){
+								inputText += (inputText.length?";":"")+$(".liItem.curHover").text();
+								$("textarea").val(inputText+";");
+								$(".userInput").focus();
+							}
+							$(".autoComplete").remove();//每次输入重新拉取列表
+						}
+						
+						var top = $this.offset().top;
+						var left = $this.offset().left;
+						var height = this.scrollHeight;
+						$userList.css({"top":top+height+10+"px","left":left+5+"px"});
+					}else{//输入框没有文本时，清空列表
+						$(".autoComplete").remove();//每次输入重新拉取列表
+					}
+					
+				}	
+			});
+			
+			$(document).on("click",".autoComplete .liItem",function(){
+				inputText += (inputText.length?";":"")+$(this).attr("value");
+				$("textarea").val(inputText+";");
+				$(".autoComplete").remove();
+				$(".userInput").focus();
+			});
+			$(document).on("mouseover",".autoComplete .liItem",function(){
+				$(".liItem.curHover").removeClass("curHover");
+				$(this).addClass("curHover");
+			});
+			
+		});
+	</script>
+</body>
+</html>

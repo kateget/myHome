@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>花币首页</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" href="css/pagination.css" />
+	</head>
+	<body>
+		<div class="warp">
+			<div class="slide"></div>
+			<div class="rightContent">
+				<div class="myQuota">
+					<p>花币</p>
+					<div class="repay-person">
+						<div class="quota">
+							<p class="available">可用额度</p>
+							<p class="money">￥<span>1000.00</span></p>
+						</div>
+						<div class="quota">
+							<p class="available">近7日待还款</p>
+							<p class="money">￥<span>0.00</span><a href="#">查账 > </a></p>
+						</div>
+						<div class="repay">还款</div>
+					</div>
+				</div>
+				
+				<div class="tabContent">
+					<input class="tab-choice1" type="radio" checked="checked" />
+					<input class="tab-choice2" type="radio" />
+					<span class="tab-item">待还款</span>
+					<span class="tab-item">已还款</span>
+					<div class="contentList1">
+						<ul>
+							<li class="ArrearItem">
+								<ul>
+									<li class="commodity">
+										<span>商品名：IPHONE X 128G </span>
+										<p>IPHONE手机购物消费</p>
+									</li>
+									<li class="repayment">
+										<span>还款金额</span>
+										<p>￥10.00</p>
+									</li>
+									<li class="repayment-term">
+										<span>还款期限</span>
+										<p>3天</p>
+									</li>
+									<li class="dealTime">
+										<span>成交时间</span>
+										<p>2017-11-15 10:05:58</p>
+									</li>
+									<li>
+										<p>还款</p>
+									</li>
+								</ul>
+							</li>
+							<li class="ArrearItem">
+								<ul>
+									<li class="commodity">
+										<span>商品名：IPHONE X 128G </span>
+										<p>IPHONE手机购物消费</p>
+									</li>
+									<li class="repayment">
+										<span>还款金额</span>
+										<p>￥10.00</p>
+									</li>
+									<li class="repayment-term">
+										<span>还款期限</span>
+										<p>3天</p>
+									</li>
+									<li class="dealTime">
+										<span>成交时间</span>
+										<p>2017-11-15 10:05:58</p>
+									</li>
+									<li>
+										<p>还款</p>
+									</li>
+								</ul>
+							</li>
+							<li class="ArrearItem">
+								<ul>
+									<li class="commodity">
+										<span>商品名：IPHONE X 128G </span>
+										<p>IPHONE手机购物消费</p>
+									</li>
+									<li class="repayment">
+										<span>还款金额</span>
+										<p>￥10.00</p>
+									</li>
+									<li class="repayment-term">
+										<span>还款期限</span>
+										<p>3天</p>
+									</li>
+									<li class="dealTime">
+										<span>成交时间</span>
+										<p>2017-11-15 10:05:58</p>
+									</li>
+									<li>
+										<p>还款</p>
+									</li>
+								</ul>
+							</li>
+							<li class="ArrearItem">
+								<ul>
+									<li class="commodity">
+										<span>商品名：IPHONE X 128G </span>
+										<p>IPHONE手机购物消费</p>
+									</li>
+									<li class="repayment">
+										<span>还款金额</span>
+										<p>￥10.00</p>
+									</li>
+									<li class="repayment-term">
+										<span>还款期限</span>
+										<p>3天</p>
+									</li>
+									<li class="dealTime">
+										<span>成交时间</span>
+										<p>2017-11-15 10:05:58</p>
+									</li>
+									<li>
+										<p>还款</p>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="contentList2">
+						
+					</div>
+					<div class="paging">
+						<div class="M-box"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.pagination.js" ></script>
+		<script>
+			$('.M-box').pagination({
+			    callback:function(api){
+			        $('.now').text(api.getCurrent());
+			    }
+			},function(api){
+			    $('.now').text(api.getCurrent());
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+	</head>
+	<body>
+		<script>
+			//闭包简单的概念：定义在一个函数内部的函数
+			//用途：一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。
+			function count(){
+				var n = 1;
+				addCount = function(){n++;alert(n);};//全局函数
+				getCount = function(){alert("n:"+n)};
+				function ttt(){
+					console.log("局部函数---"+n);
+				}
+				return getCount;
+			}
+//			console.log(n);//因为n为函数count的局部变量，在外部引用会报错
+			var t = count();
+			addCount();
+			t();
+			addCount();
+			getCount();
+//			ttt();//局部函数，调用报错
+		</script>
+	</body>
+</html>

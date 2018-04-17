@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body onload="">   
+  <script>
+  	var oDateNow = new Date();
+	var oYear = oDateNow.getFullYear();
+	var oDateEnd = new Date();
+	oDateEnd.setFullYear("2017");
+	oDateEnd.setMonth("05");
+	oDateEnd.setDate("08");
+	oDateEnd.setHours(0);
+	oDateEnd.setMinutes(0);
+	oDateEnd.setSeconds(0);
+	function upDate(){
+		var oDateNow = new Date();
+		var iTime = oDateEnd.getTime()-oDateNow.getTime();
+		var iRemain = iTime/1000;
+		var iDay= parseInt(iRemain/86400);
+		iRemain%=86400;
+		var iHour=parseInt(iRemain/3600);
+		iRemain%=3600;
+		var iMin=parseInt(iRemain/60);
+		iRemain%=60;
+		var iSec=parseInt(iRemain);
+		switch(true){
+			case Math.abs(iDay)== 0 :
+				console.log(iHour+"小时前");
+				break;
+			case Math.abs(iDay)== 1 :
+				console.log("一天前");
+				break;
+			case Math.abs(iDay) > 1 && Math.abs(iDay) <=7:
+				console.log("一周前");
+				break;
+			case Math.abs(iDay) > 7 && Math.abs(iDay) <=30:
+				console.log("一个月前");
+				break;
+			case Math.abs(iDay) > 30 && Math.abs(iDay) <=180:
+				console.log("半年前");
+			default:
+				console.log("半年前");
+				break;
+		}
+	}
+  </script>
+	</body>  
+</html>

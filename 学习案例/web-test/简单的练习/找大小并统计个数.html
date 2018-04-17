@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+	</head>
+	<body>
+		<script>
+			var str = "ssdlfkldsjflaaaaa";
+			var obj = {};
+			obj["max"] = {"key":1,"value":0};
+			for(var i = 0;i<str.length;i++){
+				if(obj[str[i]]){
+					obj[str[i]]++;
+				}else{
+					obj[str[i]] = 1;
+				}
+			}
+			
+			$.each(obj,function(key,value){
+				if(value > obj["max"]["value"]){
+					obj["max"]["value"] = value;
+					obj["max"]["key"] = key;
+				}
+			})
+			console.log("最大值为 "+obj["max"]["key"]+" : "+obj["max"]["value"]);
+		</script>
+	</body>
+</html>

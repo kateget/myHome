@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+	</head>
+	<body>
+		<label>请输入一个数字，判断是否连续</label>
+		<input placeholder="请输入" />
+		<button>判断开始</button>
+		<script>
+			$(document).on("click","button",function(){
+				var val = $("input").val();
+				//分割
+				var arr = val.split("");
+				var isTrue = true;
+				arr.sort(function(a,b){
+					var t = parseInt(b)-parseInt(a);debugger;
+					t!==1?isTrue=false:"";
+				});
+				alert(isTrue?"是连续的数字":"不是连续的数字");
+			});
+		</script>
+	</body>
+</html>

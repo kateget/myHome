@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>简单的下雪特效</title>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<style>
+			.box{
+			    margin: 50px 50px;
+			    width: 500px;
+			    height: 500px;
+			    background: #000;
+			    position: relative;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			
+		</div>
+		<script>
+			$(function(){
+				var i=1;
+				var setval = setInterval(function(){
+					var rundNumStart = Math.random()*500,rundNumEnd = Math.random()*500;//定义雪花飘落开始的左边左边-到结束的距离容器的左边坐标
+				
+					var $span = $("<span>*</span>");
+					$span.addClass("span_"+i);
+					$span.css({
+						"font-size" : Math.random()*36+14+"px",
+						"position" : "absolute",
+						"left" : rundNumStart+'px',
+						"top" : 0,
+						"color" : "#fff"
+					});
+					$(".box").append($span);
+					$(".box span").animate({
+						"left" : rundNumEnd+"px",
+						"top" : "500px"
+					},10000,function(){
+						$(this).remove();
+						i++;
+					});
+				},200);
+			});
+			
+		</script>
+	</body>
+</html>

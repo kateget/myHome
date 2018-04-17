@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.zhi{
+				width: 200px;
+				height: 300px;
+				text-align: center;
+				margin: 100px auto 0;
+				border: 1px solid #eee;
+				box-shadow:0 0 5px 0 rgba(0,0,0,.3),0 0 10px 0px rgba(0,0,0,.1) inset;
+				position: relative;
+				background: #fff;
+			}
+			.zhi:after,.zhi:before{
+				width: 100px;
+				height: 1px;
+				content: "";
+				box-shadow:0 2px 12px 5px rgba(0,0,0,.3);
+				bottom: 6px;
+				position: absolute;
+				z-index: -1;
+			}
+			.zhi:before{
+				left: 4px;
+				transform: rotate(-6deg);
+			}
+			.zhi:after{
+				right: 4px;
+				transform: rotate(6deg);
+			}
+		</style>
+	</head>
+	<body>
+		<p class="zhi"></p>
+	</body>
+</html>

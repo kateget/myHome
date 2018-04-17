@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>cheatsheet练习</title>
+		<style>
+			body{
+				margin: 0;
+			    padding: 0;
+			    font-size: 14px;
+		        font-family: "Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+	            background: rgba(25,10,25,.4);
+			}
+			.wrap{
+				max-width: 1200px;
+				margin: 50px auto 0;
+				background-color:#FFFFFF ;
+				border-radius:2px ;
+				box-shadow: 0 0 50px 4px rgba(20,30,99,.5);
+			}
+			.ul-content{
+				padding: 0;
+				font-size: 0;
+				padding: 20px;
+			}
+			.ul-content ul{
+				padding: 0;
+				width: 575px;
+				display: inline-block;
+				margin-right: 5px;
+			    vertical-align: top;
+			}
+			.ul-content ul:nth-of-type(2n){
+				margin: 0 0 0 5px;
+			}
+			li.cheatsheet-type{
+				list-style: none;
+				padding: 10px;
+				display: inline-block;
+				font-size: 14px;
+				min-width: 400px;
+			    background-color: rgba(130,79,40,0.4);
+			    border-radius: 2px;
+			    box-shadow: 0 0 10px 1px rgba(10,22,60,.3);
+			    color: rgba(40,40,120,.6);
+		        vertical-align: top;
+		        margin-top: 10px;
+		        width: 555px;
+		        min-height: 150px;
+			}
+			li .cheatsheet-writing{
+			    border-bottom: 1px solid;
+			    padding-bottom: 10px;
+			    margin-bottom: 10px;
+			}
+			pre{
+				margin: 0 0 10px 0;
+			    display: inline-block;
+   				width: 265px;
+   				box-sizing: border-box;
+   				background: rgba(0,0,0,.1);
+   				box-shadow: 0 0 10px 0px rgba(15,25,127,.2) inset;
+			    vertical-align: top;
+			}
+			pre:nth-of-type(2n){
+				margin-left:10px;
+			}
+			pre:nth-of-type(2n-1){
+				margin-right:10px;
+			}
+			/*pre:hover,
+			pre:focus {
+			  width: min-content;
+			}*/
+			.pre-title span{
+			    display: inline-block;
+			    width: 265px;
+			    text-align: center;
+			    background: rgba(0,0,0,.3);
+			    margin-right: 10px;
+		        border-radius: 2px 2px 0 0;
+		        color: rgba(255,255,255,.5);
+			}
+			.pre-title span:nth-of-type(2n){
+				margin: 0 0 0 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="Modular">
+				<div class="ul-content">
+					<ul>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							nav>ul>li(child > 表示的是子元素)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>nav>ul>li</span>
+							</div>
+							<pre>
+&lt;nav&gt;
+&emsp;&lt;ul&gt;
+&emsp;&emsp;&lt;li&gt;&lt;/li&gt;
+&emsp;&lt;/ul&gt;
+&lt;/nav&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							div+p+bq(sibling + 表示的是兄弟元素)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>div+p+bq</span>
+							</div>
+							<pre>
+&lt;div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;blockquote&gt;&lt;/blockquote&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							div+div>p>span+em^bq(climb-up ^ 类似jq链式结构的.end操作，向上回溯)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>div+div>p>span+em^bq</span>
+								<span>div+div>p>span+em^^bq</span>
+							</div>
+							<pre>
+&lt;div&gt;&lt;/div&gt;
+&lt;div&gt;
+&emsp;&lt;p&gt;
+&emsp;&emsp;&lt;span&gt;&lt;/span&gt;
+&emsp;&emsp;&lt;em&gt;&lt;/em&emsp;
+&emsp;&lt;/p&gt;
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;/div&gt;
+							</pre>
+							<pre>
+&lt;div&gt;&lt;/div&gt;
+&lt;div&gt;
+&emsp;&lt;p&gt;
+&emsp;&emsp;&lt;span&gt;&lt;/span&gt;
+&emsp;&emsp;&lt;em&gt;&lt;/em&emsp;
+&emsp;&lt;/p&gt;
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;/div&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							div>(header>ul>li*2>a)+footer>p(grouping () 类似jq链式结构的.end操作，向上回溯)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>div>(header>ul>li*2>a)+footer>p</span>
+								<span>(div>dl>(dt+dd)*3)+footer>p</span>
+							</div>
+							<pre>
+&lt;div&gt;
+&emsp;&lt;header&gt;
+&emsp;&emsp;&lt;ul&gt;
+&emsp;&emsp;&emsp;&lt;li&gt;&lt;a&gt;&lt;/a&gt;&lt;/li&gt;
+&emsp;&emsp;&emsp;&lt;li&gt;&lt;a&gt;&lt;/a&gt;&lt;/li&gt;
+&emsp;&emsp;&lt;/ul&gt;
+&emsp;&lt;/header&gt;
+&emsp;&lt;footer&gt;
+&emsp;&emsp;&lt;p&gt;&lt;/p&gt;
+&emsp;&lt;/footer&gt;
+&lt;/div&gt;
+							</pre>
+							<pre>
+&lt;div&gt;
+&emsp;&lt;dt&gt;
+&emsp;&emsp;&lt;dt&gt;&lt;dd&gt;&lt;/dd&gt;&lt;/dt&gt;
+&emsp;&emsp;&lt;dt&gt;&lt;dd&gt;&lt;/dd&gt;&lt;/dt&gt;
+&emsp;&emsp;&lt;dt&gt;&lt;dd&gt;&lt;/dd&gt;&lt;/dt&gt;
+&emsp;&lt;dl&gt;
+&lt;/div&gt;
+&lt;footer&gt;
+&emsp;&lt;p&gt;&lt;/p&gt;
+&lt;/footer&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							ID and CLASS attributes: (带属性的标签)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>#header</span>
+								<span>.title</span>
+							</div>
+							<pre>
+&lt;div id='header'&gt;  &lt;/div&gt;
+							</pre>
+							<pre>
+&lt;div class='title'&gt;  &lt;/div&gt;
+							</pre>
+							<div class="pre-title">
+								<span>form#search.wide</span>
+								<span>p.class1.class2.class3</span>
+							</div>
+							<pre>
+&lt;form id='search' class='wide'&gt;  &lt;/form&gt;
+							</pre>
+							<pre>
+&lt;p class='class1 class2 class3'&gt;  &lt;/p&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							ID and CLASS attributes: (带属性的标签)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>#header</span>
+								<span>.title</span>
+							</div>
+							<pre>
+&lt;div id='header'&gt;  &lt;/div&gt;
+							</pre>
+							<pre>
+&lt;div class='title'&gt;  &lt;/div&gt;
+							</pre>
+							<div class="pre-title">
+								<span>form#search.wide</span>
+								<span>p.class1.class2.class3</span>
+							</div>
+							<pre>
+&lt;form id='search' class='wide'&gt;  &lt;/form&gt;
+							</pre>
+							<pre>
+&lt;p class='class1 class2 class3'&gt;  &lt;/p&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							Custom attributes: (带属性的标签)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>p[title="Hello world"]</span>
+								<span>td[rowspan=2 colspan=3 title]</span>
+							</div>
+							<pre>
+&lt;p title='Hello world'&gt;  &lt;/p&gt;
+							</pre>
+							<pre>
+&lt;td rowspan='2' colspan='3' title=''&gt;&lt;/td&gt;
+							</pre>
+							<div class="pre-title">
+								<span>[a=‘value1‘ b="value2"]</span>
+							</div>
+							<pre>
+&lt;span a='value1' b='value2'&gt;  &lt;/form&gt;
+							</pre>
+						</div>
+					</li>
+					<!-- 第一个列表添加节点 -->
+					
+					</ul>
+					<ul>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							Multiplication: *(表示数量)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>ul>li*5</span>
+							</div>
+							<pre>
+&lt;ul&gt;
+&emsp;&lt;li&gt;&lt;/li&gt;
+&emsp;&lt;li&gt;&lt;/li&gt;
+&emsp;&lt;li&gt;&lt;/li&gt;
+&emsp;&lt;li&gt;&lt;/li&gt;
+&emsp;&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+							</pre>
+						</div>
+					</li>
+					<li class="cheatsheet-type">
+						<div class="cheatsheet-writing">
+							Naming and numbering: $($ 数量自增)
+						</div>
+						<div class="cheatsheet-result">
+							<div class="pre-title">
+								<span>ul>li.sample$*5</span>
+								<span>h$[title=topic$]{Headline $}*3</span>
+							</div>
+							<pre>
+&lt;ul&gt;
+&emsp;&lt;li class="sample1"&gt;&lt;/li&gt;
+&emsp;&lt;li class="sample2"&gt;&lt;/li&gt;
+&emsp;&lt;li class="sample3"&gt;&lt;/li&gt;
+&emsp;&lt;li class="sample4"&gt;&lt;/li&gt;
+&emsp;&lt;li class="sample5"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+							</pre>
+							<pre>
+&lt;h1 title="topic1"&gt;Headline 1&lt;/h1&gt;
+&lt;h2 title="topic2"&gt;Headline 2&lt;/h2&gt;
+&lt;h3 title="topic3"&gt;Headline 3&lt;/h3&gt;
+							</pre>
+							<div class="pre-title">
+								<span>ul>li.item$$$*5</span>
+								<span>ul>li.item$@-*5</span>
+							</div>
+							<pre>
+&lt;ul&gt;
+&emsp;&lt;li class="item001"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item002"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item003"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item004"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item005"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+							</pre>
+							<pre>
+&lt;ul&gt;
+&emsp;&lt;li class="item5"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item4"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item3"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item2"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item1"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+							</pre>
+							<div class="pre-title">
+								<span>ul>li.item$@3*5</span>
+							</div>
+							<pre>
+&lt;ul&gt;
+&emsp;&lt;li class="item3"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item4"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item5"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item6"&gt;&lt;/li&gt;
+&emsp;&lt;li class="item7"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+							</pre>
+						</div>
+					</li>
+					<!-- 第二个列表添加节点 -->
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

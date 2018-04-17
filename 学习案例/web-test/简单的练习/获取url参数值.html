@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.2.1.min.js" ></script>
+	</head>
+	<body>
+		<script>
+			var url = "xxxx.com?param=xxx&param1=tt";
+			var param = url.split("?");
+			var params = param[1].split("&");
+			var obj = {};
+			for(var i=0;i<params.length;i++){
+				let p = params[i].split("=");
+				obj[p[0]] = p[1];
+			}
+			console.log(obj);
+		</script>
+	</body>
+</html>

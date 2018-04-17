@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>拖拽效果</title>
+		<style>
+			.box{
+			    height: 350px;
+			    width: 350px;
+			    position: absolute;
+			    left: 200px;
+			    top: 300px;
+			    border: 1px solid burlywood;
+			    border-radius: 5px;
+			}
+			.bar{
+				padding: 5px 10px;
+				background: #EEE8D5;
+				cursor: move;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="bar">点我拖拽</div>
+			<div class="content"></div>
+		</div>
+		<script>
+			var params = {
+				left: 0,
+				top: 0,
+				currentX: 0,
+				currentY: 0,
+				flat: false
+			}
+			
+			//获取css样式
+			function getCss(o,key){
+				return o.currentStyle? o.currentStyle[key]: document.defaultView.getComputedStyle(o,false)[key];//o.currentStyle为获取IE下该对象的所有样式    后面是其他浏览器获取该对象的所有对象
+			}
+			
+			//拖拽的实现
+			var startDrag = function(bar,target,callback){
+				if(getCss(target,'left') !== 'auto'){
+					params.left = getCss(target,'left');
+				}
+				if(getCss(target,'top') !== 'auto'){
+					params.top = getCss(target,'top');
+				}
+				
+				bar.onmousedown = function(event){
+					params.flat = true;
+					if(!event){
+						event = window.event;
+						//防止IE文字选中
+						bar.onselectstart = function(){
+							return false;
+						}
+					}
+					var e = event;
+					params.currentX = e.clientX;
+					params.currentY = e.clientY;
+				}
+				
+				document.onmouseup = function(){
+					params.flat = false;
+					if(getCss(target,'left') !== 'auto'){
+						params.left = getCss(target,'left');
+					}
+					if(getCss(target,'top') !== 'auto'){
+						params.top = getCss(target,'top');
+					}
+				}
+				
+				document.onmousemove = function(event){
+					var e = event?event:window.event;
+					if(params.flat){
+						var nowX = e.clientX, nowY = e.clientY;
+						var direX = nowX - params.currentX,direY = nowY - params.currentY;
+						
+						target.style.left = parseInt(params.left) + direX + 'px';
+						target.style.top = parseInt(params.top) + direY + 'px';
+						
+						if(e.preventDefault){
+							e.preventDefault();
+						}
+						return false;
+					}
+					
+					if(typeof callback=="function"){
+						callback(parseInt(params.left)+direX,parseInt(params.top)+direY);
+					}
+				}
+			}
+			
+			var bar = document.getElementsByClassName("bar")[0];
+			var box = document.getElementsByClassName("box")[0];
+			startDrag(bar ,box);
+		</script>
+	</body>
+</html>
