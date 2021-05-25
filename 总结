@@ -1,0 +1,813 @@
+工具網站：
+BootCDN
+-----------------------------------------------------------------------------------------------------------------
+1.错误：
+Template parse errors:Can't bind to 'ngModel' since it isn't a known property of 'input'.
+解决，在引入模块的文件（例如：app.module）下，引入：import { FormsModule } from "@angular/forms";并配置
+-----------------------------------------------------------------------------------------------------------------
+2.angular 樣式覆蓋
+:host/:host-content/::ng-deep(已经废弃，低版本可以使用)
+:host-content用法为
+:host-context(.theme-light) h2 {
+	background-color: #eef;
+}
+只有当某个祖先元素有 CSS 类 theme-light 时，才会把 background-color 样式应用到组
+件内部的所有 <h2> 元素中。
+---------------------------------------------------------------------------------------------------P122
+-----------------------------------------------------------------------------------------------------------------
+3.弹窗服务
+ entryComponents
+---------------------------------------------------------------------------------------------------P132
+-----------------------------------------------------------------------------------------------------------------
+4.Template parse errors:
+Can't have multiple template bindings on one element. Use only one attribute named 'template' or prefixed with *
+解决：在*ngFor里面同时存在了*ngIf或者其他结构性属性
+-----------------------------------------------------------------------------------------------------------------
+
+5.angular脚手架创建项目后出现，访问白屏问题
+解决：修改tsconfig.json下配置"target": "es2015" ==> "target": "es5",
+-----------------------------------------------------------------------------------------------------------------
+
+6.路由配置
+<router-outlet></router-outlet>
+在app.component.html加上这个后，路由才会生效
+-----------------------------------------------------------------------------------------------------------------
+
+7.动态表单与响应式表单
+动态表单：表单控件不会修改数据模型，数据流永远是从dom到表单模型，而不是数据模型
+-----------------------------------------------------------------------------------------------------------------
+
+8.数据量大的时候，可以使用防抖和节流
+
+-----------------------------------------------------------------------------------------------------------------
+
+9.密碼為8-15位，必須包含大寫英文、小寫英文、數字、特殊字符@#$%^&*?
+/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\@\#\$\%\^\&\*\?])[^]{8,15}$/
+-----------------------------------------------------------------------------------------------------------------
+
+10.全局设置vue @路径
+-----------------------------------------------------------------------------------------------------------------
+
+11.一般会话无效是连接请求失败导致的
+解决：查看是否域名正确
+例如
+pathRewrite: { '^/xxxxx/xxx': '/' },
+pathRewrite: { '^/xxxxx/xxx': '/xxxxx' },
+这种
+-----------------------------------------------------------------------------------------------------------------
+
+12.二进制文件下载
+-----------------------------------------------------------------------------------------------------------------
+//文件下载
+download(set) {
+	let { data, name, fileType, filename, flag } = set;
+	if (!data) return;
+	let URL = window.URL || window.webkitURL;
+	//ipad端excel直接预览
+	let type = this.isIpad && name == 'excel' ? 'application/vnd.ms-excel' : fileType;
+	let url = URL.createObjectURL(new Blob([data], { type }));
+
+	//在ifram内->在admin内预览excel
+	if (this.isIpad && (window.frames.length !== parent.frames.length)) {
+	let url = URL.createObjectURL(new Blob([data], { type: 'application/vnd.ms-excel' }));
+	let link = document.createElement('a');
+	// newTab = window.open();
+	link.style.display = 'none';
+	link.href = url;
+	link.setAttribute('download', filename);
+	newTab.document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	return
+	}
+
+	let link = document.createElement('a');
+	if (typeof link.download === 'undefined') {
+	window.location = url
+	} else {
+	link.style.display = 'none';
+	link.href = url;
+	link.setAttribute('download', filename);
+	document.body.appendChild(link);
+	link.click();
+	}
+	if (flag) {
+	let count = this.checkboxGroup2.length;
+	this.$msgbox(`已下載共${count}份價值信`, "提示",
+	{
+	confirmButtonText: "確定",
+	type: "success"
+	}).then(() => {
+	}).catch(() => {
+	});
+	}
+	document.body.removeChild(link);
+},
+
+
+
+
+let type = res.headers['content-type'];
+let filename = decodeURI(res.headers['content-disposition'].split(';')[1].split('=')[1].replace(/^\"|\"$/g, ''));
+let xlsSet = {
+data: res.data,
+name: 'excel',
+fileType: type,
+filename
+}
+this.download(xlsSet)
+-----------------------------------------------------------------------------------------------------------------
+
+13.vue 配置
+基本配置：
+var routes = [
+	{
+			path: '/',
+			component:{
+				template: `
+					<h1>home</h1>
+				`
+			}
+	},
+	{
+			# 路由传参数
+			path: '/user/:name',
+			name: 'user_info',
+			meta:{
+				# 当前路由自定义配置
+				login_required: true
+			},
+			component:{
+				template: `
+				# 这种方式是通过路由传参
+					<h1>user is {{ $router.params.name }}</h1>
+				# 这种方式是通过url传参
+					<div>age is {{ $router.query.age }}</div> 
+					# 子路由跳转传参
+					<router-link :to="'/user/'+$router.params.name+'/more'"></router-link>
+					# 另外一种传参方式
+					<router-link :to="more" append></router-link>
+					# 这是vue.js的语法，可能与框架略有不同,vue.js路由跳转显示必须加router-view，否则浏览器会不知道怎么渲染跳转后的页面
+					<router-view></router-view>
+				`
+			},
+			# 路由钩子
+			beforeEnter: (to, from, next) => {},
+			children:[
+				{
+					path: '/more',
+					component:{
+					template: `
+						<p>显示更多</p>
+					`
+				},
+				{
+					path: 'info',
+					name: 'info',
+					component: resolve => require(['../components/common/reloadPage.vue'], resolve)
+				}
+			]
+	}
+]
+
+var router = new VueRouter({
+	routes: routes,
+})
+
+# 路由导肮钩子，用来拦截路由访问权限
+router.beforeEach(function (to, from, next) {
+	# 拦截举例
+	var logined_in = true;
+	if(!logined_in && to.matched.some(function(item)=>{
+		return item.meta.login_required
+	})){
+		next('/login');
+	}else{
+		next();
+	}
+})
+# 这个用的比较少
+router.afterEach((to, from) => {
+})
+
+# vue.js
+new Vue({
+	el:'#app',
+	router:router
+})
+
+# vue脚手架
+export default router
+
+///////////////////////////////////////
+user 页面
+# 路由跳转
+this.router.push('/user')
+this.router.push({name:'user_info',params:{name:'xxx'}})
+///////////////////////////////////////
+计算属性computed与监听watch
+--- watch 可以用来监听页面路由变化(当数据变化异步时或开销较大的操作，使用监听watch会好点)
+	watch: {
+		firstName: function(val){
+			this.fullName = val + ' ' +this.lastName
+		},
+		lastName: function(val){
+			this.fullName = this.firstName + ' ' +val
+		}
+	}
+# 	监听路由变化的几种方式
+1.
+	watch: {
+		$route(to, from){
+			console.log(to.path)
+		}
+	}
+2.	watch: {
+		$route: {
+			handler: function(val, oldVal){
+				console.log(val)
+			},
+# 			深度观察监听
+			deep: true
+		}
+	}
+3.	watch: {
+		'$route': 'getPath'
+	},
+	methods: {
+		getPath(){
+			console.log(this.$route.path)
+		}
+	}
+--- computed 
+例如：
+	computed: {
+		fullName: function(){
+			return this.firstName + ' ' +this.lastName
+		},
+		fullName: {
+			//getter 默认只有getter
+			get: function(){
+				return this.firstName + ' ' +this.lastName
+			},
+			// setter
+			set: function(){
+				var names = newValue.split(' ')
+				this.firstName = names[0]
+				this.lastName = names[names.length-1]
+			}
+		}
+	}
+	可通过 fullName来更新firstName和lastName，当vm.fullName = 'john Doe'时，setter调用，vm.firstName和vm.lastName更新
+-----------------------------------------------------------------------------------------------------------------
+
+14.git 操作
+# 新建仓库
+git init xxx
+# 创建文件
+touch xxx.txt
+# 添加
+git add .
+# 查看状态
+git status
+# 提交
+git commit -m "xx"
+# 查看git提交记录
+git log / git log -p / git log --online --all(可选) --graph(可选，图形化)
+# 切换到固定版本
+git checkout branch_id
+# 切换到上一次的版本
+git checkout -
+# 打开git可视化界面控制台
+gitk --all &
+# 给提交添加标签
+git tag "xxx"
+例如：git tag -a v2 -m "扩充了内容" branch_id(可加可不加，不加为最近节点打标签)
+# 分支创建
+git branch xxx
+# 分支合并
+git merge branch_name
+# 更新代码
+git pull (相当于git fetch && git merge 拉取和合并)
+git pull origin head (拉取远程仓库代码)
+# 链接到远端仓库
+git remote xxx(远程github地址)
+git remote -v (查看git地址)
+# 推送到远端仓库
+git push -u github(仓库名) master(分支名)
+git push origin head (推送到当前分支的远端仓库)
+# 拉取远端仓库代码
+git clone xxx(GitHub链接)
+# 多命令操作
+git add . && git commit -m "完成xxx"
+-----------------------------------------------------------------------------------------------------------------
+15.自动打包zip
+npm i --save-dev zip-webpack-plugin
+-----------------------------------------------------------------------------------------------------------------
+16.sass/scss 语法
+1. 嵌套规则
+2. 父选择器： &
+	a{
+		&:hover
+		&::before
+	}
+	相当于：
+	a:hover
+	a::before
+3. 嵌套属性
+	.funky{
+		font{
+			family:fantasy;
+			size:30px;
+		}
+	}
+4. SassScript
+	4.1 算术
+	4.2 变量
+		$with: 5em;
+		#main:{
+			width:$width;
+		}
+	4.3 函数
+		p{
+			color:hsl(0,100%,50%)
+		}
+	4.4 插值--#{$name}
+		$name:foo;
+		$attr:border;
+		p.#{$name}{
+			#{$attr}-color:blue;
+		}
+	4.5 变量默认值
+		$content:"First content" # 有内容的情况下，不会被默认值覆盖
+		$content: "Second content?" !default
+
+5. @规则和指令
+	5.1 @import
+		@import "foo.scss"
+		@import "foo"
+		@import "http://foo.com/bar"
+		@import url(foo)
+	5.2 片段
+		_color.scss 不会被编译成css
+		可以通过@import "color" 来引入 _color.scss
+	5.3 嵌套@import
+		#main{
+			@import "example"
+		}
+	5.4 @media 可以嵌套，通过and连接
+	5.5 @extend 继承
+		.error{
+			border:1px #f00;
+			background-color: #fdd;
+		}
+		.seriousError:{
+			@extend .error;
+			border-width: 1px;
+		}
+
+		5.5.1 复杂选择器的继承
+			.hoverlink{
+				@extend a:hover;
+			}
+			a:hover{
+				text-decoration:underline;
+			}
+		5.5.2 多继承
+			.hoverlink{
+				@extend a:hover;
+				@extend .error;
+			}
+		5.5.3 链接扩展
+			.hoverlink{
+				@extend a:hover;
+			}
+			a:hover{
+				text-decoration:underline;
+			}
+			.seriousError{
+				@extend .hoverlink;
+			}
+		5.5.4 选择器序列
+			#fak-links .link{
+				@extend a;
+			}
+			a{
+				color:blue;
+				&:hover{
+					text-decoration:underline;
+				}
+			}
+		5.5.5 合并选择序列(解释比较复杂暂不写)
+		5.5.6 只继承选择器
+			不展示在HTML页面里面，只提供@extend样式,使用%占位符选择器，例如%foo
+			#content a%extreme{
+				color:blue;
+				font-weight:bold;
+			}
+			.notice{
+				@extend %extreme;
+			}
+		5.5.7 可选标志 (扩展选择器时，@extend不起作用会出现错误，这时候不会产生新的选择器，如果需要这个容错的话，只需要在选择器后添加!optional标志)
+	# 		不加！optional 会报错
+			a.important{
+				@extend .notice !optional;
+			}
+		5.5.8 指令中的继承 @media 中使用 @extend 只能扩展出现在同一个指令块中的选择器
+			@media print{
+				.error{
+					border:1px #f00;
+					background-color: #fdd;
+				}
+				.seriousError{
+					@extend .error;
+				}
+			}
+	5.6 @debug 把sass表达式的值打印到控制台,调试非常有用
+		@debug 10em + 12m;
+		/* outputs: */
+		line 1 DEBUG: 22em
+	5.7 warn 把sass表达式的值打印到控制台
+		warn与debug区别
+		可以用--quiet 命令行或:quiet Sass关闭警告
+		样式表追踪将与消息一起打印出来，便于用户看到样式哪里引起的警告
+		@mixin adjust-location($x, $y){
+			@if unitless($x){
+				@warn "Assuming #{$x} to be in pixels";
+				$x: 1px * $x;
+			}
+			@if unitless($x){
+				@warn "Assuming #{$y} to be in pixels";
+				$y: 1px * $y;
+			}
+			position: relative;left: $x;top: $y;
+		}
+6. 指令控制
+	6.1 @if
+		p{
+			@if 1+1 == 2 {border:1px solid;}
+			@if 5 < 2 {border:2px solid;}
+			@if null {border:3px solid;}
+		}
+	6.2 @for 
+# 		from ... through ,范围包括 <start> 和 <end>的值
+# 		from ... to ,范围运行到但是不包括 <end> 的值
+		@for $i from 1 through 3{
+			.item-#{$i}{width: 1em * $i};
+		}
+	6.3 @each @each 规则将$var设置为列表中的每个项目，然后使用$var的值输出包含的样式
+		@each $animal in puma, sea-slug, egret, salaman
+		der {
+			.#{$animal}-icon{
+				background-image: url("/images/#{$animal}.png");
+			}
+		}
+# 		编译后的效果为
+		.puma-icon{
+			background-image: url("/images/puma.png");
+		}
+		.sea-slug-icon{
+			background-image: url("/images/sea-slug.png");
+		}
+		.egret-icon{
+			background-image: url("/images/egret.png");
+		}
+		.salaman-icon{
+			background-image: url("/images/salaman.png");
+		}
+	6.4 while 可以实现比@for更复杂的循环
+		$i: 6;
+		@while $i>0{
+			.item-#{$i}{width:2em * $i}
+			$i: $i - 2;
+		}
+7. Mixin Dirctives (mixin 允许您定义可以在整个样式表中重用的样式，而不需要求助于.float-left之类的非语义类)
+	7.1 定义一个Mixin: Defining a Mixin: @minxin
+		@minxin clearfix{
+			display: inline-block;
+			&:after{
+				content: '.';
+				display: block;
+				height: 0;
+				clear: both;
+				visibility: hidden;
+			}
+			* html & {
+				height: 1px;
+			}
+		}
+		@minxin larg-text{
+			font: {
+				family: Arial;
+				size: 20px;
+				weight: bold;
+			}
+			color: #ff0000;
+		}
+	7.2 引入一个Mixin: including a Mixin: @include
+		.page-title{
+			@include larg-text;
+			padding: 4px;
+			margin-top: 10px;
+		}
+# 		编译过来就是
+		.page-title {
+			font-family: Arial;
+			font-size: 20px;
+			font-weight: bold;
+			color: #ff0000;
+			padding: 4px;
+			margin-top: 10px;
+		}
+# 		mixin 还能包含其他mixin
+		@mixin compound{
+			@include highlighted-background;
+			@include header-text;
+		}
+	7.3 参数: Arguments
+		@mixin sexy-border($color, $width: 1in){
+			border: {
+				color: $color;
+				width: $width;
+				style: dashed;
+			}
+		}
+		p {
+			@include sexy-boder(blue, 1in);
+		}
+		span {
+			@include sexy-boder($color: blue);
+		}
+		h1 {
+			@include sexy-boder($color: blue, $width: 2in);
+		}
+	7.4 变量参数 (minxin 接受未知的参数，它将剩余的参数打包成一个列表，这些参数看起来像正常参数一样，只要这些参数以...为结尾)
+		@mixin box-shadow($shadows...){
+			-moz-box-shadow: $shadows;
+			-webkit-shadow: $shadows;
+			box-shadow: $shadows;
+		}
+		.shadows{
+			@include box-shadow(0px 4px 5px #666,2px 6px 10px #999);
+		}
+# 		也可以把变量参数展开，方便以每个值作为单独的参数传递
+		@mixin color($text, $background, $border){
+			color: $text;
+			background-color: $background;
+			border-color: $border;
+		}
+		$values: #ff0000, #00ff00, #0000ff;
+		.primary {
+			@include color($values...);
+		}
+	7.5 将内容块传递给mixin (可以将一个样式块传递给mixin，以便将其放置在mixin包含的样式中。样式将出现在mixin中找到的任何@content指令的位置，这使得定义与选择器和指令的构造相关的抽象成为可能。)
+		@mixin apply-to-ie6-only {
+			*html{
+				@conotent;
+			}
+		}
+		@include apply-to-ie6-only{
+			#logo{
+				background-image: url(/logo.gif);
+			}
+		}
+# 		编译为：
+		* html #logo{
+			background-image: url(/logo.gif);
+		}
+8. Functiion Dirctives (可以在sass中定义方法，并在任何值或者脚本上下文中使用)
+	$grid-width: 40px;
+	$gutter-width: 10px;
+
+	@function grid-width($n){
+		@return $n * $grid-width + ($n - 1) * $gutter-width;
+	}
+
+	#sidebar {
+		width: grid-width(5);
+	}
+# 	编译为：
+	#sidebar{
+		width: 240px;
+	}
+# 	函数可以访问任何全局变量，但是必须调用 @return 来设置函数返回值
+	#sidebar{
+		width: grid-width($n: 5);
+	}
+-----------------------------------------------------------------------------------------------------------------
+17.编辑相关快捷键
+ctrl + E 搜索文件
+ctrl + enter 当前行插入空行
+ctrl + shift + enter 当前行下方插入空行
+ctrl + 空格 自动完成
+ctrl + shift + 箭头 选择代码自定义部分
+ctrl + } 匹配大括号/括号
+ctrl + shift + } 在匹配的括号/括号内选择文本
+ctrl + shift +s 保存所有文件和项目
+shift + end 从头到尾选择整行
+shift + home 从尾到头选择整行
+shift + delete 删除当前行
+导航相关快捷键
+ctrl + delete 删除光标右侧所有文本
+ctrl + up/down 滚动窗口不移动光标
+ctrl + - 让光标移动到先前位置
+ctrl + + 让光标移动到下一个位置
+F12 转到定义
+调试相关快捷键
+ctrl + alt + p 附加到进程
+F10 单步调试
+F5 开始调试
+shift + F5 停止调试
+F9 设置或者删除断点
+搜索相关快捷键
+ctrl + alt + l 选中变量之后，使用这个快捷键生成 console.log
+
+alt + shift + c 注释所有 console.log
+
+alt + shift + u 启用所有 console.log
+
+alt + shift + d 删除所有 console.log
+
+npm i -D ./node_modules/gulp -g
+-----------------------------------------------------------------------------------------------------------------
+// 18. 节流函数
+import { Message } from 'element-ui'
+export function throttle(message, type = 'warning', wait = 1000) {
+  const previous =
+           parseInt(sessionStorage.getItem('timeout')) || 0
+  let time = null
+
+  if (!previous) {
+    sessionStorage.setItem('timeout', 1)
+    time = setTimeout(() => {
+      console.log(typeof message === 'string')
+      if (typeof message === 'string') {
+        Message({
+          type: type,
+          message,
+          duration: wait
+        })
+      } else {
+        message.call(this)
+      }
+
+      time = null
+      sessionStorage.removeItem('timeout')
+    }, wait)
+  }
+  return time
+}
+-----------------------------------------------------------------------------------------------------------------
+ // 19. 格式化输入框文本，返回类似1,000,000的文本
+    function formatNumber(num) {
+      let t = num+''
+      t = t.replace(/[,a-zA-Z]/g, '')
+      t = t && t.match(/[0-9]+/)[0]
+      return t.replace(/\B(?=(?:\d{3})+\b)/g, ',')
+    }
+-----------------------------------------------------------------------------------------------------------------
+// 20. vue 本地文件下载 ,文件必须放在public下才能通过url访问得到
+<p>
+	<a href="../../../public/static/daxing_plan.pdf" download="大新「智優遊」旅遊保障計劃">下載保險手冊</a>&nbsp; &nbsp;&nbsp;
+	<a href="../../../public/static/daxing_plan.pdf" download="大新「智優遊」旅遊保障計劃">下載保險條款</a>
+</p>
+-----------------------------------------------------------------------------------------------------------------
+// 21.cmd代理
+set http_proxy=http://10.6.70.31:808
+set https_proxy=http://10.6.70.31:808
+设置node 拉取仓库
+npm config set registry http://10.28.85.95:8081/artifactory/npm-virtual-repository/
+-----------------------------------------------------------------------------------------------------------------
+// 22.判斷年齡是否在18-64之間，是-true,否-false
+date_birth > new Date(new Date().getTime() - 18 * 365 * 24 * 60 * 60 * 1000).getTime() || date_birth < new Date(new Date().getTime() - 64 * 365 * 24 * 60 * 60 * 1000).getTime()
+-----------------------------------------------------------------------------------------------------------------
+// 23.按需引入
+document.onclick = async function(){
+	let res = await import("./fn.js")
+	console.log(res)
+}
+import 函数会返回一个promise对象
+-----------------------------------------------------------------------------------------------------------------
+// 24.由于js不支持固化分组，可以使用肯定环视来模拟
+(?>regex) 可以用 (?=(regex))\1
+例如 (?>\w+): 和 (？=(\w+))\1:
+需求：提取小数点后两位，为0的不提取
+'1.0324'.replace(/(\.\d\d(?=([1-9]?))\2)\d+/,'$1')
+环视也类似固化分组，匹配后，会放弃备用状态，固话分组会捕获分组，环视不会，所以\1并不是多此一举
+NFA 模式下的正则引擎 | 使用的是 顺序匹配，而不是匹配优先或者忽略优先，所以还有下面这种实现方式(DFA 和 POSIX NFA 使用的是匹配优先的多选结构)
+'1.035'.replace(/(\.\d\d[1-9]|\.\d\d)\d*/,'$1')
+--- 1.0
+
+-----------------------------------------------------------------------------------------------------------------
+#  25.快速排序
+let quickSort = function (arr){
+    
+// 	递归出口就是数组长度为1
+    if(arr.length <= 1) return arr 
+// 	获取中间数的索引
+	let index = Math.floor(arr.length/2)
+//  使用splice获取中间值，第一个参数为截取的索引，第二个参数为截取的长度
+//  如果此处使用pivot = arr[index],将会出现无限递归的错误
+//  splice影响原数组
+	let pivot = arr.splice(index,1)[0],left=[],right=[]
+	for(let i=0;i<arr.length;i++){
+    	if(pivot > arr[i]){
+			left.push(arr[i])
+		}else{
+			right.push(arr[i])
+		}
+	}    
+	return quickSort(left).concat([pivot],quickSort(right))
+}
+插入
+let insertionSort = function(arr){
+	for(let i=0;i<arr.length;i++){
+		let prv = i-1,
+		cur = arr[i]
+		while(prv >=0 && arr[prv] > cur){
+			arr[prv+1] = arr[prv]
+			prv --
+		}
+		arr[prv+1] = cur
+	}
+	return arr
+}
+排序 ---- 冒泡/快速/计数/归并/插入/选择(每次取最小值)
+-----------------------------------------------------------------------------------------------------------------
+# 26. 进入如下页面，带上参数lang
+# 	难点：由于next("/login")这类跳转，携带参数后，路由会/中断当前导航，执行新的导航/，只有next()才会直接往下执行，所以，在适当的情况下，判断一下，直接走next()
+// 在如下链接下，需要带上参数lang
+function judgeUrl(to, next, lang) {
+  const urlArr = [
+    "changeaddress",
+    "changeBeneficiary",
+    "changegetway",
+    "changepayway",
+    "applicationForAutopay",
+    "expApplication",
+    "policyLoan",
+    "claim",
+    "shortcutClaimMacao",
+    "speedClaimMacao",
+  ];
+  const isUrl = urlArr.some((item) => {
+    return to.path.indexOf(item) !== -1;
+  });
+  // debugger
+  if (!to.query.lang) {
+    if (isUrl) {
+      next({ path: to.path, query: { lang: lang } });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+}
+-----------------------------------------------------------------------------------------------------------------
+# 27. 自定义滚动条样式
+&::-webkit-scrollbar-track-piece{
+  width: 8px;
+  height: 8px;
+  background-color: #f0f0f0;
+  // 背景色
+}
+&::-webkit-scrollbar{
+  width: 8px;
+  height: 8px;
+  background-color: #00c0ff;
+}
+&::-webkit-scrollbar-thumb{
+  width: 8px;
+  height: 8px;
+  background-color: seagreen;
+}
+&::-webkit-scrollbar-thumb:hover{
+  width: 8px;
+  background-color: #00c0ff;
+}
+&::-webkit-scrollbar{
+  background-color: seagreen;
+}
+&::-webkit-scrollbar-thumb:hover{
+  background-color: seagreen;
+}
+-----------------------------------------------------------------------------------------------------------------
+# 28. base64加密
+const Base64 = require('js-base64').Base64
+const formData = {
+	agentNo: this.loginForm.agentNo,
+	password: Base64.encode(this.loginForm.password)
+}
+-----------------------------------------------------------------------------------------------------------------
+# 29. 深拷贝
+claimTypesList1 = JSON.parse(JSON.stringify(types));
+-----------------------------------------------------------------------------------------------------------------
+# 30. 解除网络限制
+cmd   -->   gpedit.msc   -->   计算机配置-->管理模板   -->   QoS数据包计划程序   -->   限制可保留带宽   -->   设置为0
+-----------------------------------------------------------------------------------------------------------------
+# 31. taro 項目安裝流程
+安裝： npm i -g @tarojs/cli    /   yarn global add @tarojs/cli
+初始化： taro init demo1
+編譯： npm dev:h5     /     yarn dev:h5
+-----------------------------------------------------------------------------------------------------------------
